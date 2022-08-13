@@ -1,0 +1,105 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+  basicTimeStep 16
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.6777182459560236 0.6612418450044533 0.32164763564092536 2.460609050131252
+  position -0.05252292477565025 1.6270487320660652 2.345858012788951
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931957
+  contactMaterial "tierra"
+  appearance Rubber {
+  }
+}
+DEF base Solid {
+  rotation -1 0 0 1.5707963267948966
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/dohyo.PNG"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF forma Cylinder {
+        height 0.0001
+        radius 0.75
+        side FALSE
+        subdivision 60
+      }
+    }
+  ]
+  name "base"
+  locked TRUE
+  translationStep 0
+  rotationStep 0
+}
+DEF Rojo rojo {
+  translation -0.17894 0.0211614 0.0545546
+  rotation -0.0024032699807420696 -0.9999969919868046 0.0004902149960717996 0.121727
+  name "Rojo"
+  controller "artil0Controlller"
+  extensionSlot [
+    DEF equipo Solid {
+      translation 0 0.024 0
+      rotation -1 0 0 1.57
+      children [
+        DEF placa Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.003
+            radius 0.03
+          }
+          isPickable FALSE
+        }
+      ]
+      boundingObject USE placa
+      physics Physics {
+      }
+    }
+  ]
+}
+DEF Verde verde {
+  translation 0.22804721050319157 0.02118155980063892 0.09111637400638331
+  rotation -0.014734959123111069 -0.999891428896917 -0.00010676198822308704 0.02032478549204607
+  name "Verde"
+  controller "OpponentControlller"
+  extensionSlot [
+    DEF equipo Solid {
+      translation 0 0.024 0
+      rotation -1 0 0 1.57
+      children [
+        DEF placa Shape {
+          appearance PBRAppearance {
+            baseColor 0 1 0
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.003
+            radius 0.03
+          }
+          isPickable FALSE
+        }
+      ]
+      boundingObject USE placa
+      physics Physics {
+      }
+    }
+  ]
+}
+CerealBox {
+  translation 0.8191865850427685 0.09980379949760422 -1.1684819759351255
+  rotation -1.0021580522190646e-10 1 -1.3082758937461118e-10 1.3073410126694993
+}

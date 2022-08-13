@@ -1,0 +1,20 @@
+# Ignore Cache Python system files
+*.pyc
+*.pyo
+# Ignore PNG
+node_modules
+
+# Ignore all text files
+*.txt
+
+# Ignore files related to API keys
+.env
+
+# Ignore SASS config files
+.sass-cache
+
+# Dependency directories (remove the comment below to include it)
+Sumo.v1.7.1.zip
+webots-blockly-v0.7-win32-ia32.zip
+webots-blockly-v0.7-win32-ia32/
+Sumo/logs/
