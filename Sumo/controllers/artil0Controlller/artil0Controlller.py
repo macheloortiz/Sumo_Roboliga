@@ -37,6 +37,12 @@ robot.esperar(1)
 previo = 0
 
 while robot.step():
+    s_piso=robot.getColorPiso()
+    print(s_piso)
+    if (s_piso> 77 and s_piso<86):
+        print("                                          retro")
+        robot.setVel(100, -100)
+        robot.esperar(0.5)
     posicion, flagesp = sensar()
     # print(sen_val)
     #print("Tiempo ",robot.tiempoActual())
@@ -68,7 +74,7 @@ while robot.step():
         robot.esperar(.5)
         robot.setVel(100, 100)
         robot.esperar(.5)
-        print("previo")
+        # print("previo")
     # buscar()
     # noCaer()
     # siempre dejar lo mas critico al final, porque ese es el estado en el que quedara si se cumple la
