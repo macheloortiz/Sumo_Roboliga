@@ -1,10 +1,37 @@
 #RobotName: Artil
+from simple_pid import PID
 from RobotRL import RobotRL
 robot = RobotRL()
 
 
+def montado():
+    s_piso = robot.getColorPiso()
+    # print(s_piso)
+    if (s_piso > 77 and s_piso < 86):
+        print("retro")
+        robot.setVel(100, -100)
+        robot.esperar(0.5)
+
+
+previo = 0
+
+
+def timecheck():
+    global previo
+    actual = robot.tiempoActual()
+    if (actual - previo) > 10:
+        previo = actual
+        robot.setVel(-100, 100)
+        robot.esperar(.5)
+        robot.setVel(100, 100)
+        robot.esperar(.5)
+        # print("previo")
+
+
 def noCaer():
     if (robot.getColorPiso() > 90):
+        robot.setVel(100, 100)
+        robot.esperar(0.5)
         robot.setVel(-100, -100)
         robot.esperar(1)
         robot.setVel(-100, 100)
@@ -33,23 +60,25 @@ def sensar():
 
 
 # robot.setVel(50,-50)
-robot.esperar(1)
-previo = 0
+# robot.esperar(1)
+
+
+kp = 1
+ki = 0.01
+kd = 0.005
+pid = PID(kp, ki, kd, 50, 0.01, (-50, 50), True, False, None)
 
 while robot.step():
-    s_piso=robot.getColorPiso()
-    print(s_piso)
-    if (s_piso> 77 and s_piso<86):
-        print("                                          retro")
-        robot.setVel(100, -100)
-        robot.esperar(0.5)
+    # montado()
     posicion, flagesp = sensar()
-    # print(sen_val)
-    #print("Tiempo ",robot.tiempoActual())
-    # print(posicion,flagesp)
+    print(posicion, flagesp)
+
+    out = pid(posicion)
+    # print(out)
+
     error = posicion-50
     abs_error = abs(error)
-    #print ("Error     ", error)
+    print("Error     ", error)
     if robot.getDI() == 100 and robot.getDD() == 100:
         ew = -30 if flagesp else 30
         po = 20
@@ -63,19 +92,14 @@ while robot.step():
     else:
         ew = 0
         po = 0
-    velMotorL = -error+po-ew
-    velMotorR = error+po+ew
-    robot.setVel(velMotorL, velMotorR)
-    noCaer()
-    actual = robot.tiempoActual()
-    if (actual - previo) > 10:
-        previo = actual
-        robot.setVel(-100, -100)
-        robot.esperar(.5)
-        robot.setVel(100, 100)
-        robot.esperar(.5)
-        # print("previo")
-    # buscar()
+    vl = 50
+    robot.setVel(out+vl-ew, -out+vl+ew)
+    # velMotorL = -error  #+po-ew
+    # velMotorR = error   #+po+ew
+    #robot.setVel(velMotorL, velMotorR)
     # noCaer()
+    # buscar()
+    timecheck()
+    noCaer()
     # siempre dejar lo mas critico al final, porque ese es el estado en el que quedara si se cumple la
     # condicion de esa llamada
